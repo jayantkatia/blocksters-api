@@ -9,32 +9,45 @@ const { fabloGet } = require("./fablo-rest")
 
 exports.fetchDocument = async (req, res) => {
   // Call hyperledger fabric to get IPFS hash using provided keyword
-  const {userid, instituteCode, key} =  req.body
-  const {response} = await fabloGet(userid)
-  const student = JSON.parse(response)
 
-  let ipfsHash;
-  if(instituteCode){
-    const institute = student.education.filter(inst => inst.code == instituteCode)
-    if (institute.length()==0 && !institute[0].documents[key]){
-      res.send(204).json({
-        message: 'No Content'
-      })
-    }
-    ipfsHash = institute[0].documents[key]
-  }else{
-    if(student.commonDocuments[key]){
-      res.send(204).json({
-        message: 'No Content'
-      })
-    }
-    ipfsHash = student.commonDocuments[key]
-  }
+  let userid;
+  if( req.auth && req.auth.id != undefined) userid = req.auth.id
+  else userid =  req.body.userid
 
-  res.status(200).json({
-    response: {
-      ipfsHash,
+  const {instituteCode, key} =  req.body
+  
+  await fabloGet(userid).then(response=> {
+    const student = JSON.parse(response.data.response.success)
+
+    let ipfsHash;
+    if(instituteCode){
+      const institute = student.education.filter(inst => inst.code == instituteCode)
+      if (institute.length==0 && !institute[0].documents[key]){
+        res.send(204).json({
+          message: 'No Content'
+        })
+      }
+      ipfsHash = institute[0].documents[key]
+    }else{
+      if(student.commonDocuments[key]){
+        res.send(204).json({
+          message: 'No Content'
+        })
+      }
+      ipfsHash = student.commonDocuments[key]
     }
+
+    res.status(200).json({
+      response: {
+        ipfsHash,
+      }
+    })
+  }).catch(err=>{
+    const errors  = err.errors || Array(err)
+    const errorMessages = errors.map(error => {
+      return { msg: error.message, param: error.path}
+    })
+    res.status(400).json({errors:errorMessages})
   })
 }
 
@@ -67,6 +80,12 @@ exports.verifyDocument = async (req, res) => {
         isVerified
       }
     })
+  }).catch(err=>{
+    const errors  = err.errors || Array(err)
+    const errorMessages = errors.map(error => {
+      return { msg: error.message, param: error.path}
+    })
+    res.status(400).json({errors:errorMessages})
   })
 }
 

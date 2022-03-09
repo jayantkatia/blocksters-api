@@ -25,7 +25,6 @@ exports.signin = async (req, res) => {
     expiresIn: '2 days'
   })
   res.sendStatus(204)
-
 }
 
 // Protected routes

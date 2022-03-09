@@ -24,7 +24,7 @@ router.get('/students', getAllStudents)
 router.put('/update-student', updateDetails)
 
 // Fetch a document
-router.get('/fetch-documents', fetchDocument)
+router.get('/fetch-document', fetchDocument)
 
 // Stores a document
 // router.post('/store-documents', storeDocument)

@@ -1,10 +1,14 @@
+const { response } = require('express')
 const { fabloGet } = require('./fablo-rest')
 
 exports.getDetails = async (req, res) => {
-  const { suid } = req.body
+  const userid = req.auth.id
+  console.log(userid)
   try {
-    const { response } = await fabloGet(suid)
-    res.status(200).json({ response })
+    await fabloGet(userid).then( response =>{
+      const result = JSON.parse(response.data.response.success)
+      res.status(200).json({response: result})
+    })
   } catch (err) {
     const errors = err.errors || Array(err)
     const errorMessages = errors.map(error => {

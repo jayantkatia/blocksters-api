@@ -18,14 +18,12 @@ router.post('/signin',
 // get all details after student signs in
 router.get('/details',
   isSignedIn,
-  isAuthenticated,
   getDetails
 )
 
 // fetch document when student requests
 router.get('/fetch-document',
   isSignedIn,
-  isAuthenticated,
   fetchDocument
 )
 
