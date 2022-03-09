@@ -59,16 +59,16 @@ exports.getAllStudents = async (req, res) => {
       message: "No Content"
     })
   }
-  
   // Get all students from hyperledger
   const requests = allStudents.map( ({userid}) => {
     return fabloGet(userid)
   })
-  await axios.all(requests).then(axios.spread((...responses) => {
+  await axios.all(requests).then(responses => {
+      const result = responses.map(response => JSON.parse(response.data.response.success))
       res.status(200).json({
-        response: responses
+        response: result,
       })
-    })
+    }
   ).catch(err => {
     const errors  = err.errors || Array(err)
     const errorMessages = errors.map(error => {

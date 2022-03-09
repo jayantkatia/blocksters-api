@@ -11,6 +11,6 @@ dropdb:
 	docker exec -it institute-sql dropdb --username=root institute_api
 
 list-port-pid:
-	lsof -ti:3000
+	lsof -ti:4000
 	
 .PHONY: psql-docker-run psql-docker-interactive createdb list-port-pid dropdb

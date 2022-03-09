@@ -28,7 +28,7 @@ Institutions API to server institutes, students and 3rd party verifiers.
         DB_PORT=5432
 
         # APPLICATION SERVER
-        PORT=3000
+        PORT=4000
         SECRET=blocksters
 
         # NODEMAILER
