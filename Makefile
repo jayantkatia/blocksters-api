@@ -1,13 +1,13 @@
-mysql-docker-run:
-	docker run --name institute-sql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -d mysql:latest
+psql-docker-run:
+	docker run --name institute-sql -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres 
 
-mysql-docker-interactive:
-	docker exec -it institute-sql mysql --password=secret institute_api
+psql-docker-interactive:
+	docker exec -it institute-sql psql -U root -d institute_api
 
 createdb:
-	docker exec -it blogs-sql mysql -psecret -e "create database institute_api;"
+	docker exec -it institute-sql createdb --username=root --owner=root institute_api
 
 list-port-pid:
 	lsof -ti:3000
 	
-.PHONY: mysql-docker-run mysql-docker-interactive createdb list-port-pid
+.PHONY: psql-docker-run psql-docker-interactive createdb list-port-pid

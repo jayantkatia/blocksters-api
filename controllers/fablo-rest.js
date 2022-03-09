@@ -1,8 +1,8 @@
 const { default: axios } = require("axios")
 
-const { HYPERLEDGER_NODE_IP, HYPERLEDGER_NODE_USERNAME, HYPERLEDGER_NODE_PASSWORD } = process.env
+const { HYPERLEDGER_NODE_IP, HYPERLEDGER_NODE_USERNAME, HYPERLEDGER_NODE_PASSWORD, HYPERLEDGER_CHANNEL, HYPERLEDGER_CHANNEL_CHAINCODE} = process.env
 
-const _token = undefined
+let _token = undefined
 const _authenticate = async () => {
   if (_token != undefined) return
   await axios.post(`http://${HYPERLEDGER_NODE_IP}/user/enroll`, JSON.stringify(
@@ -11,7 +11,7 @@ const _authenticate = async () => {
       "secret": HYPERLEDGER_NODE_PASSWORD
     }
   )).then(response => {
-    _token = response.token
+    _token = response.data.token
   })
 }
 

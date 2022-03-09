@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const Students = require('../models/student')
+const expressJwt = require('express-jwt')
 
 
 exports.signin = async (req, res) => {

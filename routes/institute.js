@@ -3,22 +3,18 @@ const router = Router()
 
 // Imports (controllers)
 const {emailValidator, passwordValidator, stringValidator, areFieldsValidated, checkSpaces} = require('../controllers/validators')
-const {signup} = require('../controllers/student-auth')
 const {fetchDocument, storeDocument} = require('../controllers/documents')
-const {getAllStudents} = require('../controllers')
+const {getAllStudents, updateDetails, registerStudent} = require('../controllers/institute')
 
 // Routes
 // Institute registers Student 
 router.post('/register-student', [
     emailValidator('email'),
-    passwordValidator('password'),
-    stringValidator('username', 5),
-    checkSpaces('username'),
     stringValidator('firstname',2),
     stringValidator('lastname',2)
   ], 
   areFieldsValidated,
-  signup
+  registerStudent
 );
 
 // Institute can see all of its students
@@ -31,7 +27,7 @@ router.put('/update-details', updateDetails)
 router.get('/fetch-documents', fetchDocument)
 
 // Stores a document
-router.post('/store-documents', storeDocument)
+// router.post('/store-documents', storeDocument)
 
 // Exports
 module.exports = router
