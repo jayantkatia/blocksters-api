@@ -15,18 +15,20 @@ exports.registerStudent = (req, res) => {
       lastname
   }).then(async ({userid}) => {
     try{
-      console.log('Hello')
       await fabloPut(userid, JSON.stringify(req.body))
-      console.log('Hello')
 
-// Mail Student credentials
-//     const subject = `🔒 Credentials | ${MAIL_FROM_NAME}`
-//     const message = `Greetings,
-// <br>You have been registered. Your credentials are: <br><br>username: ${email}<br>password: ${password}`
-//     mailOne(email, subject, message)
+    // Mail Student credentials
+    const subject = `🔒 Credentials | ${MAIL_FROM_NAME}`
+    const message = `Greetings,
+<br>You have been registered. Your credentials are: <br><br>username: ${email}<br>password: ${password}`
+    mailOne(email, subject, message)
     
+      res.status(200).json({
+        response:{
+          userid,
+        }
+      })
     }catch(err){
-      console.log('Here')
       console.log(err)
       Students.destroy({
         where: {
@@ -79,15 +81,14 @@ exports.getAllStudents = async (req, res) => {
 exports.updateDetails = async (req, res) => {
   // update details in hyperledger
   const {userid, ...student} = req.body
-  await fabloPut(userid, student).catch(err => {
-  const errors  = err.errors || Array(err)
-  const errorMessages = errors.map(error => {
-    return { msg: error.message, param: error.path}
-  })
-  res.status(400).json({errors:errorMessages})
-  })
-
-  res.status(200).json({
-  message: "OK"
-})
+  try{
+    await fabloPut(userid, JSON.stringify(student))
+    res.status(200).json({message: "OK"})
+  }catch(err){
+    const errors  = err.errors || Array(err)
+    const errorMessages = errors.map(error => {
+      return { msg: error.message, param: error.path}
+    })
+    res.status(400).json({errors:errorMessages})
+  }
 }

@@ -39,9 +39,9 @@ exports.fabloGet = async (key) => {
   return axios.post(
     `http://${HYPERLEDGER_NODE_IP}/invoke/${HYPERLEDGER_CHANNEL}/${HYPERLEDGER_CHANNEL_CHAINCODE}`,
     JSON.stringify({
-      "method": "KVContract:put",
+      "method": "KVContract:get",
       "args": [
-        key,
+        key
       ]
     }),
     {

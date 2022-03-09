@@ -7,7 +7,7 @@ const { verifyDocument } = require('../controllers/documents')
 
 // Routes
 // get whether IPFS hash provided matches with the IPFS hash in the blockchain
-router.post('/verify',
+router.post('/verify-document',
   stringValidator('ipfs_hash', 46),
   verifyDocument
 )

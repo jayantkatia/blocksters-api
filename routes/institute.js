@@ -21,7 +21,7 @@ router.post('/register-student', [
 router.get('/students', getAllStudents)
 
 // Update details of a Student 
-router.put('/update-details', updateDetails)
+router.put('/update-student', updateDetails)
 
 // Fetch a document
 router.get('/fetch-documents', fetchDocument)

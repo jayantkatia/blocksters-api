@@ -7,7 +7,10 @@ psql-docker-interactive:
 createdb:
 	docker exec -it institute-sql createdb --username=root --owner=root institute_api
 
+dropdb:
+	docker exec -it institute-sql dropdb --username=root institute_api
+
 list-port-pid:
 	lsof -ti:3000
 	
-.PHONY: psql-docker-run psql-docker-interactive createdb list-port-pid
+.PHONY: psql-docker-run psql-docker-interactive createdb list-port-pid dropdb

@@ -25,16 +25,23 @@ Institutions API to server institutes, students and 3rd party verifiers.
         DB_USER=root
         DB_PASS=secret
         DB_NAME=institute_api
-        DB_PORT=3306
+        DB_PORT=5432
 
         # APPLICATION SERVER
         PORT=3000
-        SECRET=<YOUR_JWT_SECRET>
+        SECRET=blocksters
 
         # NODEMAILER
-        MAIL_FROM_NAME=TI | Thapar Institute
+        MAIL_FROM_NAME=🏫 Thapar Institute
         MAIL_FROM_ADDRESS=<YOUR_MAIL_ADDRESS>
         MAIL_PASS=<YOUR_MAIL_PASSWORD>
+
+        # HYPERLEDGER NODE
+        HYPERLEDGER_NODE_IP=0.0.0.0:8801
+        HYPERLEDGER_NODE_USERNAME=<USERNAME>
+        HYPERLEDGER_NODE_PASSWORD=<PASSWORD>
+        HYPERLEDGER_CHANNEL=common-channel
+        HYPERLEDGER_CHANNEL_CHAINCODE=chaincode1
 
     ```
 5. Run

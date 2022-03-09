@@ -1,11 +1,12 @@
 
 class education {
-  constructor(code, name, graduationYear, graduationMonth, course, admissionYear, admissionMonth, documents) {
+  constructor(code, name, graduationYear, graduationMonth, course, branch, admissionYear, admissionMonth, documents) {
     this.code = code
     this.name = name
     this.graduationYear = graduationYear
     this.graduationMonth = graduationMonth
     this.course = course
+    this.branch = branch
     this.admissionYear = admissionYear
     this.admissionMonth = admissionMonth
     this.documents = documents

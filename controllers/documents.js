@@ -1,10 +1,17 @@
 const { fabloGet } = require("./fablo-rest")
+// const {create : IPFScreate} = require('ipfs-core')
+
+// let _ipfs = undefined
+// const _getIPFS = async () => {
+//   if(_ipfs) return _ipfs
+//   _ipfs = await IPFScreate()
+// } 
 
 exports.fetchDocument = async (req, res) => {
   // Call hyperledger fabric to get IPFS hash using provided keyword
   const {userid, instituteCode, key} =  req.body
   const {response} = await fabloGet(userid)
-  const student = new Student().fromJson(response)
+  const student = JSON.parse(response)
 
   let ipfsHash;
   if(instituteCode){
@@ -34,35 +41,37 @@ exports.fetchDocument = async (req, res) => {
 exports.verifyDocument = async (req, res) => {
   // Get IPFS hash from blockchain and return whether both matches or not
   const {userid, instituteCode, key, ipfsHash} =  req.body
-  const {response} = await fabloGet(userid)
-  const student = new Student().fromJson(response)
+  
+  await fabloGet(userid).then(response=>{
+    const student = JSON.parse(response.data.response.success)
+    let isVerified = false
+    if(instituteCode){
+      const institute = student.education.filter(inst => inst.code == instituteCode)
+      if (institute.length == 0 && !institute[0].documents[key]){
+        res.send(204).json({
+          message: 'No Content'
+        })
+      }
+      isVerified = institute[0].documents[key] == ipfsHash
+    }else{
+      if(student.commonDocuments[key]){
+        res.send(204).json({
+          message: 'No Content'
+        })
+      }
+      isVerified = student.commonDocuments[key] == ipfsHash 
+    }
 
-  let isVerified = false
-  if(instituteCode){
-    const institute = student.education.filter(inst => inst.code == instituteCode)
-    if (institute.length()==0 && !institute[0].documents[key]){
-      res.send(204).json({
-        message: 'No Content'
-      })
-    }
-    isVerified = institute[0].documents[key] == ipfsHash
-  }else{
-    if(student.commonDocuments[key]){
-      res.send(204).json({
-        message: 'No Content'
-      })
-    }
-    isVerified = student.commonDocuments[key] == ipfsHash 
-  }
-
-  res.status(200).json({
-    response: {
-      isVerified
-    }
+    res.status(200).json({
+      response: {
+        isVerified
+      }
+    })
   })
 }
 
 exports.storeDocument = async (req, res) => {
-  // TODO: Upload to IPFS
-  // TODO: Update in blockchain
+  // const ipfs = await _getIPFS()
+  // const {cid} = ipfs.add()
+  // // TODO: Update in blockchain
 }
