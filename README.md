@@ -46,7 +46,7 @@ Institutions API to server institutes, students and 3rd party verifiers.
 
 ### :purple_heart: Development and Contributing
 Yes, please! Feel free to contribute, raise issues and recommend best practices.
-<a href="https://github.com/jayantkatia/blogs-api/blob/main/Makefile"> Makefile</a> is your friend.
+<a href="https://github.com/jayantkatia/blocksters-api/blob/main/Makefile"> Makefile</a> is your friend.
 
 A few resources:
 - [Docker Documentation](https://docs.docker.com/get-started/overview/)

@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
-const Users = require('../models/user')
+const Students = require('../models/student')
 
 
 exports.signin = async (req, res) => {
   const {email, password} = req.body
-  const user = await Users.findOne({where: {email}, raw: false})
+  const user = await Students.findOne({where: {email}, raw: false})
   
   // User does not exist
   if(user === null){
@@ -16,7 +16,7 @@ exports.signin = async (req, res) => {
     res.status(400).json({errors: [{msg: 'Incorrect email or password'}]})
   }
 
-  const {username, fullname, userid} = user
+  const {userid} = user
 
   // Success
   const token = jwt.sign({id: userid}, process.env.SECRET)

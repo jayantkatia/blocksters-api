@@ -3,7 +3,7 @@ const db = require('../db/database');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto')
 
-const User = db.define('user', {
+const Student = db.define('student', {
   userid: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -58,15 +58,15 @@ const User = db.define('user', {
   }
 })
 
-User.prototype.securePassword = function(password) {
+Student.prototype.securePassword = function(password) {
   return crypto
   .createHmac("sha256",this.salt)
   .update(password)
   .digest("hex")
 }
 
-User.prototype.isAuthenticate = function(enteredPass){
+Student.prototype.isAuthenticate = function(enteredPass){
   return this.securePassword(enteredPass) === this.password_hash
 }
 
-module.exports = User
+module.exports = Student

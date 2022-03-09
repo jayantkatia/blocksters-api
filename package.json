@@ -1,7 +1,7 @@
 {
   "name": "institute-api",
   "version": "0.1.0",
-  "description": "API to serve blogs to users",
+  "description": "API to serve Students, Institutions and third party verification requests in Blocksters Blockchain",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,10 +17,11 @@
   "author": "Jayant Katia",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jayantkatia/institute-api/issues"
+    "url": "https://github.com/jayantkatia/blocksters-api/issues"
   },
-  "homepage": "https://github.com/jayantkatia/institute-api#readme",
+  "homepage": "https://github.com/jayantkatia/blocksters-api#readme",
   "dependencies": {
+    "axios": "^0.26.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
