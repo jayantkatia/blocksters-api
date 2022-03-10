@@ -3,7 +3,6 @@ const { fabloGet } = require('./fablo-rest')
 
 exports.getDetails = async (req, res) => {
   const userid = req.auth.id
-  console.log(userid)
   try {
     await fabloGet(userid).then( response =>{
       const result = JSON.parse(response.data.response.success)

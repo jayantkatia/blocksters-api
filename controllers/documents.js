@@ -1,11 +1,11 @@
-const { fabloGet } = require("./fablo-rest")
-// const {create : IPFScreate} = require('ipfs-core')
+const { fabloGet, fabloPut } = require("./fablo-rest")
+const IPFS = require('ipfs-core')
 
-// let _ipfs = undefined
-// const _getIPFS = async () => {
-//   if(_ipfs) return _ipfs
-//   _ipfs = await IPFScreate()
-// } 
+let _ipfs = undefined
+const _getIPFS = async () => {
+  if(_ipfs) return
+  _ipfs = await IPFS.create()
+} 
 
 exports.fetchDocument = async (req, res) => {
   // Call hyperledger fabric to get IPFS hash using provided keyword
@@ -90,7 +90,33 @@ exports.verifyDocument = async (req, res) => {
 }
 
 exports.storeDocument = async (req, res) => {
-  // const ipfs = await _getIPFS()
-  // const {cid} = ipfs.add()
-  // // TODO: Update in blockchain
-}
+  await _getIPFS()
+  const {path} = await _ipfs.add(req.file.buffer)
+  const {userid, instituteCode, key} = req.body
+  console.log(path)
+  try{
+    let result;
+
+    await fabloGet(userid).then(response=>{
+      const student = JSON.parse(response.data.response.success)
+
+      if(instituteCode){
+        const idx = student.education.findIndex(inst => inst.code == instituteCode)
+        student.education[idx].documents[key] = path
+      }else{
+        student.commonDocuments[key] = path 
+      }
+      result=student
+    })
+    await fabloPut(userid, JSON.stringify(result))
+    
+    res.status(200).json({message: "OK"})
+  
+  } catch(err) {
+    const errors  = err.errors || Array(err)
+    const errorMessages = errors.map(error => {
+      return { msg: error.message, param: error.path}
+    })
+    res.status(400).json({errors:errorMessages})
+  }
+} 

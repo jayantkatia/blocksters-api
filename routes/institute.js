@@ -1,5 +1,7 @@
 const {Router} = require('express')
 const router = Router()
+const multer  = require('multer')
+const upload = multer()
 
 // Imports (controllers)
 const {emailValidator, passwordValidator, stringValidator, areFieldsValidated, checkSpaces} = require('../controllers/validators')
@@ -27,7 +29,7 @@ router.put('/update-student', updateDetails)
 router.get('/fetch-document', fetchDocument)
 
 // Stores a document
-// router.post('/store-documents', storeDocument)
+router.post('/store-document', upload.single('document'), storeDocument)
 
 // Exports
 module.exports = router

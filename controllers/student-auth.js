@@ -4,9 +4,10 @@ const expressJwt = require('express-jwt')
 
 
 exports.signin = async (req, res) => {
+
   const {email, password} = req.body
   const user = await Students.findOne({where: {email}, raw: false})
-  
+
   // User does not exist
   if(user === null){
     res.status(404).json({errors: [{msg: 'User not found, kindly signup first'}]})
@@ -24,7 +25,10 @@ exports.signin = async (req, res) => {
   res.cookie('token', token, {
     expiresIn: '2 days'
   })
-  res.sendStatus(204)
+
+  res.status(200).json({
+    token
+  })
 }
 
 // Protected routes
